@@ -169,7 +169,8 @@ void Stmt() #void : {}
 {
 	AssignStmt() <SEMICOLON> |
 	WhileStmt() |
-	DoWhileStmt()
+	DoWhileStmt() |
+	IfStmt()
 }
 
 void AssignStmt() : {}
@@ -189,7 +190,7 @@ void WhileStmt() : {}
 
 void WhileCond()  : {}
 {
-    IntValue()
+    Expr()
 }
 
 void WhileBlock() : {}
@@ -199,6 +200,27 @@ void WhileBlock() : {}
 
 // TODO: Ajouter tous vos statements ici (Voir énoncé)
 
+void IfStmt() : {}
+{
+    <IF> <LPAREN> IfCond() <RPAREN> IfBlock() [LOOKAHEAD(1) ElseBlock()]
+}
+
+void ElseBlock() : {}
+{
+   LOOKAHEAD(2) <ELSE> <LACC> Block() <RACC> |
+   <ELSE> Stmt()
+}
+
+void IfCond() : {}
+{
+    Expr()
+}
+
+void IfBlock() : {}
+{
+    Stmt() |
+    <LACC> Block() <RACC>
+}
 
 
 // ---------- STATEMENTS END ----------
