@@ -170,7 +170,8 @@ void Stmt() #void : {}
 	AssignStmt() <SEMICOLON> |
 	WhileStmt() |
 	DoWhileStmt() |
-	IfStmt()
+	IfStmt() |
+	ForStmt()
 }
 
 void AssignStmt() : {}
@@ -178,6 +179,9 @@ void AssignStmt() : {}
 	Identifier() <ASSIGN> Expr()
 }
 
+// TODO: Ajouter tous vos statements ici (Voir énoncé)
+
+// WHILE EXPRESSION
 void DoWhileStmt() : {}
 {
     <DO> WhileBlock() <WHILE> <LPAREN> WhileCond() <RPAREN> <SEMICOLON>
@@ -198,8 +202,7 @@ void WhileBlock() : {}
     Stmt() | <LACC> Block() <RACC>
 }
 
-// TODO: Ajouter tous vos statements ici (Voir énoncé)
-
+// IF ELSE EXPRESSION
 void IfStmt() : {}
 {
     <IF> <LPAREN> IfCond() <RPAREN> IfBlock() [LOOKAHEAD(1) ElseBlock()]
@@ -217,6 +220,18 @@ void IfCond() : {}
 }
 
 void IfBlock() : {}
+{
+    Stmt() |
+    <LACC> Block() <RACC>
+}
+// FOR EXPRESSION
+
+void ForStmt() : {}
+{
+    <FOR> <LPAREN> [AssignStmt()] <SEMICOLON> [Expr()] <SEMICOLON> [AssignStmt()] <RPAREN> ForBlock()
+}
+
+void ForBlock() #void : {}
 {
     Stmt() |
     <LACC> Block() <RACC>
